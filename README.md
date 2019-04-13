@@ -1,4 +1,6 @@
-# emt_web
+# EMT APP web   
+
+Ver en [emt.vladymix.es](http://emt.vladymix.es)
 
 Esta aplicación esta diseñada, para obtener los tiempos de espera de los autobuses de Madrid, sin malgastar tus valiosos datos de conexión.
 Los datos son adquiridos directamente de la EMT Madrid.
@@ -7,8 +9,14 @@ EMT HORARIOS
 
 ![icon](https://github.com/vladymix/emt_web/blob/master/emt_web.png)
 
+#WEB
+App web [emt.vladymix.es](http://emt.vladymix.es)
 
-Ver app web [emt.vladymix.es](http://emt.vladymix.es)
+#Windows
+Windows Store – [Windows Phone](https://goo.gl/6NyUgk)
+
+#Android
+Play Store – [Android](https://goo.gl/IAxNHj)
 
 
 ## License
