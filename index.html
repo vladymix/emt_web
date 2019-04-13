@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<title>EMT Horarios</title>
+	<link rel="icon" href="http://emt.vladymix.es/data/ic_favorite.png" sizes="32x32">
+	
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0">
+
+	<!-- Styles CDN-->
+	<link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!--My Styles-->
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+
+
+	<!-- libs -->
+	<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    
+    
+	<script src="libs/EventDispatcher.js"></script>
+	<script src="js/components.js"></script>
+	
+	<!-- DataBase -->
+	<script src="js/websql/websql.js"></script>
+	
+	<!-- Models -->
+	<script src="js/models/Models.js"></script>
+	
+	<!-- View Controllers -->
+	<script src="js/controllers/MainView.js"></script>
+	<script src="js/controllers/FavoriteView.js"></script>
+	<script src="js/controllers/StopsView.js"></script>
+<!--	<script src="js/controllers/nearbystops.js"></script>-->
+	<script src="js/controllers/InfoStopView.js"></script>
+	<script src="js/controllers/NearbyStopsView.js"></script>
+
+	<script src="js/AppController.js"></script>
+	
+	<!-- Emt Data Service -->
+	<script src="js/opendataservice.js"></script>
+	
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiu_GC_8KrcdblLOFt7X-Xxxr11A3xadM&callback=AppController.initLibraryMaps" async defer>
+	</script>
+	<script src="libs/geoPosition.js" type="text/javascript" charset="utf-8"></script>
+
+	<script>
+	   AppController.onCreate();
+	</script>
+</head>
+
+<body>
+	
+	<ons-navigator swipeable id="myNavigator" page="main_page.html"></ons-navigator>
+
+	<template id="main_page.html">
+	  <ons-page id="main_page">
+		<!-- Header -->
+		<div class="toolbar toolbar--material">
+			<div class="toolbar__left toolbar--material__left">
+				<span class="toolbar-button toolbar-button--material">
+				<i class="zmdi zmdi-menu"></i>
+				</span>
+			</div>
+			<div class="toolbar__center toolbar--material__center">
+				EMT Horarios
+			</div>
+		</div>
+		<!-- /Header -->
+
+			<!-- Page -->
+		<div class="ons-page">
+			<ons-navigator swipeable id="navigator_tab" page="favorites.html"></ons-navigator>
+		</div>
+		<!-- /Page -->
+
+		<!-- TabBar -->
+		<div class="tabbar">
+			<label class="tabbar__item">
+				<input id="tap_favorites" type="radio" name="tabbar-a" checked="checked">
+				<button class="tabbar__button" >
+					<i class="tabbar__icon ion-heart"></i>
+					<div class="tabbar__label">Favoritos</div>
+				</button>
+			</label>
+
+			<label class="tabbar__item">
+				<input id="tap_stops"  type="radio" name="tabbar-a">
+				<button class="tabbar__button">
+					<i class="tabbar__icon ion-android-bus"></i>
+					<div class="tabbar__label">Paradas</div>
+				</button>
+			</label>
+
+			<label class="tabbar__item">
+				<input id="tap_nearbystops" type="radio" name="tabbar-a">
+				<button class="tabbar__button">
+					<i class="tabbar__icon ion-ios-location"></i>
+					<div class="tabbar__label">Cerca</div>
+				</button>
+			</label>
+		</div>
+	    <!-- /TabBar -->
+		<script>
+		  AppController.loadMainView('#main_page')
+		</script>
+	  </ons-page>
+	</template>
+	
+	<template id="maps.html">
+	  <ons-page id="nearbystops">
+		<div id="map" style="position: static;"></div>
+		  <button class="fab button-float-right" onclick="getLocation();"><i class="zmdi ion-android-locate"></i></button>
+		  <script>
+              AppController.loadNearbyStops('#nearbystops');
+		  </script>
+	  </ons-page>
+	</template>
+
+	<template id="favorites.html">
+	  <ons-page id="favorites">
+		<ul class="list" id="list_favorites">
+		  <div class="empty-list">
+            <i class="tabbar__icon empty-icon ion-ios-heart-outline"></i>
+            <p>Añada aqui sus paradas favoritas</p>
+          </div>
+		</ul>
+		<script>
+			AppController.loadFavoriteView('#favorites');
+		</script>
+	  </ons-page><!-- end ons page -->
+	</template>
+
+	<template id="stops.html">
+		<ons-page id="stops">
+			<div class="ons-search">
+				<input type="number" value="" placeholder="Buscar parada de autobús" class="search-input">
+			</div>
+			<ul class="list" id="listview_stops"></ul>
+			<script>
+			AppController.loadStopsView('#stops');
+			</script>
+		</ons-page><!-- end ons page -->
+	</template>
+
+	<template id="info_stop.html">
+	  <ons-page id="info_stop">
+	  <div class="toolbar toolbar--material">
+		<div id="back_button" class="toolbar__left toolbar--material__left">
+		  <span class="toolbar-button toolbar-button--material">
+			<i class="zmdi ion-android-arrow-back"></i>
+		  </span>
+		</div>
+		  
+		<div class="toolbar__center fixed_left">
+		   <h1 id="tx_nodestop">Parada 2603</h1>
+		   <h3 class="gray-color" id="tx_namestop">Conde de casal</h3>
+		</div>
+		<div class="toolbar__right toolbar--material__right">
+		  <span id="add_favorite" class="toolbar-button toolbar-button--material">
+			<i class="zmdi ion-ios-heart-outline"></i>
+		  </span>
+		</div>
+	  </div>
+
+	  <div class="ons-page math-parent">
+		 <ul class="list margin-top">
+		  <li class="list-item">
+			<div class="list-item__center">
+			  <div class="list-item__title">
+				Ubicación
+			  </div>
+			  <div class="list-item__subtitle" id="tx_postaladress">
+				Avenida plaza castilla
+			  </div>
+			</div>
+		  </li>
+		<li class="list-item">
+			<div class="list-item__center">
+			  <div class="list-item__title">
+				Lineas en esta parada
+			  </div>
+			  <pre class="list-item__subtitle pre" id="tx_lines"></pre>
+			</div>
+		  </li>
+		</ul>
+		  
+		<ul id="list_arriveds" class="list margin-top"></ul>
+		  
+	  </div>
+	  <script>
+		  AppController.loadInfoStopView('#info_stop');
+	  </script>
+	  </ons-page><!-- end ons page -->
+	</template>
+	
+	<div id="progress_view"></div>
+	<div id="action_sheet_view"></div>
+	<div id="alert_view"></div>
+	<div id="toast_view"></div>
+	
+</body>
+</html>
