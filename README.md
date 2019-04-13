@@ -9,13 +9,13 @@ EMT HORARIOS
 
 ![icon](https://github.com/vladymix/emt_web/blob/master/emt_web.png)
 
-#WEB
+# WEB
 App web [emt.vladymix.es](http://emt.vladymix.es)
 
-#Windows
+# Windows
 Windows Store – [Windows Phone](https://goo.gl/6NyUgk)
 
-#Android
+# Android
 Play Store – [Android](https://goo.gl/IAxNHj)
 
 
