@@ -7,6 +7,10 @@ body {
     font-weight: 300;
 }
 
+.wi100{
+    width: 100%;
+}
+
 
 .ons-page {
     position: absolute;
