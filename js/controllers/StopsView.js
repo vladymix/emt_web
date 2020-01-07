@@ -10,6 +10,7 @@ StopsView.prototype = {
         this.createChildren();
         this.setupHandlers();
         this.setListeners();
+       
     },
 
     createChildren: function () {
@@ -17,6 +18,9 @@ StopsView.prototype = {
         this.$listView = this.$container.find('#listview_stops');
 
     },
+    msnWelcome:function(){
+     new AlertDialog("Atención", "Sitio en mantemiento, por favor intentelo más tarde").show();
+     },
 
     setupHandlers: function () {
         this.textChangeHandler = this.onTextChange.bind(this);
@@ -25,8 +29,16 @@ StopsView.prototype = {
     },
 
     itemSelected: function (node) {
-        var info = new OpenDataService(AppController.onOpenDataResult);
-        info.getInfoStop(node);
+        if(AppController.accessToken.length==0){
+            var info = new OpenDataService(AppController.ResultToken);
+            info.getTocken(function(){
+                    var infoStop = new OpenDataService(AppController.onOpenDataResult);
+                    infoStop.getInfoStop(node)
+                });
+        }else{
+             var info = new OpenDataService(AppController.onOpenDataResult);
+                info.getInfoStop(node)
+        } 
     },
 
     setListeners: function () {

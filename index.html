@@ -46,6 +46,7 @@
 	</script>
 	<script src="libs/geoPosition.js" type="text/javascript" charset="utf-8"></script>
 
+    <script src="https://kit.fontawesome.com/e98b075ae2.js" crossorigin="anonymous"></script>
 	<script>
 	   AppController.onCreate();
 	</script>
@@ -59,11 +60,6 @@
 	  <ons-page id="main_page">
 		<!-- Header -->
 		<div class="toolbar toolbar--material">
-			<div class="toolbar__left toolbar--material__left">
-				<span class="toolbar-button toolbar-button--material">
-				<i class="zmdi zmdi-menu"></i>
-				</span>
-			</div>
 			<div class="toolbar__center toolbar--material__center">
 				EMT Horarios
 			</div>
@@ -78,18 +74,11 @@
 
 		<!-- TabBar -->
 		<div class="tabbar">
-			<label class="tabbar__item">
-				<input id="tap_favorites" type="radio" name="tabbar-a" checked="checked">
-				<button class="tabbar__button" >
-					<i class="tabbar__icon ion-heart"></i>
-					<div class="tabbar__label">Favoritos</div>
-				</button>
-			</label>
 
 			<label class="tabbar__item">
 				<input id="tap_stops"  type="radio" name="tabbar-a">
 				<button class="tabbar__button">
-					<i class="tabbar__icon ion-android-bus"></i>
+					<i class="tabbar__icon fa fa-bus"></i>
 					<div class="tabbar__label">Paradas</div>
 				</button>
 			</label>
@@ -97,7 +86,7 @@
 			<label class="tabbar__item">
 				<input id="tap_nearbystops" type="radio" name="tabbar-a">
 				<button class="tabbar__button">
-					<i class="tabbar__icon ion-ios-location"></i>
+					<i class="tabbar__icon fas fa-street-view"></i>
 					<div class="tabbar__label">Cerca</div>
 				</button>
 			</label>
@@ -112,7 +101,7 @@
 	<template id="maps.html">
 	  <ons-page id="nearbystops">
 		<div id="map" style="position: static;"></div>
-		  <button class="fab button-float-right" onclick="getLocation();"><i class="zmdi ion-android-locate"></i></button>
+		  <button class="fab button-float-right" onclick="getLocation();"><i class="zmdi fas fa-map-marker-alt"></i></button>
 		  <script>
               AppController.loadNearbyStops('#nearbystops');
 		  </script>
@@ -123,8 +112,10 @@
 	  <ons-page id="favorites">
 		<ul class="list" id="list_favorites">
 		  <div class="empty-list">
-            <i class="tabbar__icon empty-icon ion-ios-heart-outline"></i>
-            <p>Añada aqui sus paradas favoritas</p>
+              <i class="tabbar__icon empty-icon fas fa-bus"></i>
+              <p class="color_accent">EMT Horarios</p>
+            <p>Bienvenido</p>
+               <p style="color: #cbcbcb">by VLADY MIX</p>
           </div>
 		</ul>
 		<script>
@@ -148,9 +139,10 @@
 	<template id="info_stop.html">
 	  <ons-page id="info_stop">
 	  <div class="toolbar toolbar--material">
-		<div id="back_button" class="toolbar__left toolbar--material__left">
+         
+		<div id="back_button" class="toolbar__left toolbar--material__left ">
 		  <span class="toolbar-button toolbar-button--material">
-			<i class="zmdi ion-android-arrow-back"></i>
+			<i class="zmdi fas fa-arrow-left"></i>
 		  </span>
 		</div>
 		  

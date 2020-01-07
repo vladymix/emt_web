@@ -3,9 +3,9 @@ var UrlGetinfoStop = "geo/GetStopsFromStop.php";
 var UrlGetArriveStop = "geo/GetArriveStop.php";
 var UrlGetStopsFromXY ="/geo/GetStopsFromXY.php"
 var pd;
-const idClient =  "WEB.SERV.vlady-mix@hotmail.com";
-const passKey = "2A2FEBD8-9481-4BE4-B343-06B3BB4B8D7E";
-
+const idClient =  "vlady-mix@hotmail.com";
+const passKey = "F@bricio18";
+var accessTocken = "";
 class HashMap {
     constructor() {
         this.values = Array();
@@ -40,6 +40,7 @@ class ApiClient {
         this.type = type;
         this.url = url;
         this.listener = listener;
+        this.headers = {};
     }
 
     setcontentType(contentType) {
@@ -60,14 +61,19 @@ class ApiClient {
             }
         }
     }
+    
+    setHeader(header){
+        this.headers = header;
+    }
 
     execute(error) {
         $.ajax({
-            type: "POST",
+            type: this.type,
             url: this.url,
+            headers: this.headers,
             contentType: this.contentType,
             async: true,
-            data: this.content,
+           // data: this.content,
             error: error,
             success: this.listener
         })
@@ -85,17 +91,35 @@ class OpenDataService {
             message: "Obteniendo información",
             cancelable: true
         });
+      
         var map = new HashMap();
-        map.set("idClient", idClient);
-        map.set("passKey", passKey);
-        map.set("idStop", idStop);
-        map.set("Radius", 0);
-        map.set("cultureInfo", "ES");
+        map.set("accessToken", AppController.accessToken);
         pd.show();
 
-        var client = new ApiClient("POST", UrlBasic + UrlGetinfoStop, this.listener);
-        client.setcontentType("application/x-www-form-urlencoded");
-        client.setContent_xwwwformurlencoded(map);
+        var client = new ApiClient("GET", "https://openapi.emtmadrid.es/v1/transport/busemtmad/stops/arroundstop/" + idStop + "/0/", this.listener);
+        
+        client.setcontentType("application/json");
+        client.setHeader({"accessToken":AppController.accessToken})
+        client.execute(error);
+    }
+    
+    getTocken(listener){
+       pd = new ProgressDialog({
+            title: "EMT Horarios",
+            message: "Obteniendo token",
+            cancelable: true
+        });
+        pd.show();
+        
+        var client = new ApiClient("GET", "https://openapi.emtmadrid.es/v1/mobilitylabs/user/login/", 
+                                   function (result) {
+                                        ProgressDialog.dismiss();
+                                        AppController.accessToken = result.data[0].accessToken;
+                                        listener.call();
+                                        });
+        
+        client.setcontentType("application/json");
+        client.setHeader({ "email": "vlady-mix@hotmail.com", "password": "F@bricio18"});
         client.execute(error);
     }
     

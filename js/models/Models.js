@@ -14,7 +14,7 @@
          var stop = new Stop();
          stop.name = json.name;
          stop.postaladress = json.postalAddress;
-         stop.node = json.stopId;
+         stop.node = json.stop;
          stop.posxnode = json.longitude;
          stop.posynode = json.latitude;
          
@@ -44,14 +44,15 @@
 
      static fromApiResult(json) {
          var stop = new Stop();
-         var st = json.stops;
-         var lines = st.line;
+         var st = json;
+         var lines = st.dataLine;
+         
+         stop.node = st.stop;
          stop.name = st.name;
          stop.postaladress = st.postalAddress;
-         stop.node = st.stopId;
          stop.posxnode = st.longitude;
          stop.posynode = st.latitude;
-         var lines = st.line;
+        
 
          var contentLines = "";
          if (Array.isArray(lines)) {

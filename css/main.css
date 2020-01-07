@@ -2,6 +2,12 @@
     color: #0076ff;
 }
 
+body {
+    font-family: "Roboto",sans-serif;
+    font-weight: 300;
+}
+
+
 .ons-page {
     position: absolute;
     width: 100%;

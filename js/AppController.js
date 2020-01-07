@@ -12,10 +12,12 @@ var AppController = function () {
     AppController.listStopsXml = null;
     AppController.WebSql = WebSql.adapter();
     AppController._instance = this;
+    AppController.accessToken = "";
     //Foo initialization code
 };
 
 AppController.onSearcStop;
+
 
 AppController.getInstance = function () {
     "use strict";
@@ -66,7 +68,7 @@ AppController.parserXmlStops = function (xml) {
 AppController.onOpenDataResult = function (data) {
     ProgressDialog.dismiss();
 
-    AppController.stopSelected = Stop.fromApiResult(data);
+    AppController.stopSelected = Stop.fromApiResult(data.data[0].stops[0]);
 
     var navigator = document.querySelector('#myNavigator');
     navigator.pushPage('info_stop.html', {
