@@ -1,4 +1,4 @@
-var UrlBasic = "https://openbus.emtmadrid.es:9443/emt-proxy-server/last/";
+var UrlBasic = "https://openapi.emtmadrid.es/v1";
 var UrlGetinfoStop = "geo/GetStopsFromStop.php";
 var UrlGetArriveStop = "geo/GetArriveStop.php";
 var UrlGetStopsFromXY ="/geo/GetStopsFromXY.php"
@@ -41,6 +41,7 @@ class ApiClient {
         this.url = url;
         this.listener = listener;
         this.headers = {};
+        this.content = "";
     }
 
     setcontentType(contentType) {
@@ -62,6 +63,10 @@ class ApiClient {
         }
     }
     
+    setContent(con){
+        this.content = con;
+    }
+    
     setHeader(header){
         this.headers = header;
     }
@@ -73,7 +78,7 @@ class ApiClient {
             headers: this.headers,
             contentType: this.contentType,
             async: true,
-           // data: this.content,
+            data: this.content,
             error: error,
             success: this.listener
         })
@@ -91,19 +96,16 @@ class OpenDataService {
             message: "Obteniendo información",
             cancelable: true
         });
-      
-        var map = new HashMap();
-        map.set("accessToken", AppController.accessToken);
         pd.show();
 
-        var client = new ApiClient("GET", "https://openapi.emtmadrid.es/v1/transport/busemtmad/stops/arroundstop/" + idStop + "/0/", this.listener);
+        var client = new ApiClient("GET", UrlBasic+ "/transport/busemtmad/stops/arroundstop/" + idStop + "/0/", this.listener);
         
         client.setcontentType("application/json");
         client.setHeader({"accessToken":AppController.accessToken})
         client.execute(error);
     }
     
-    getTocken(listener){
+    getTocken(continueWith){
        pd = new ProgressDialog({
             title: "EMT Horarios",
             message: "Obteniendo token",
@@ -111,12 +113,13 @@ class OpenDataService {
         });
         pd.show();
         
-        var client = new ApiClient("GET", "https://openapi.emtmadrid.es/v1/mobilitylabs/user/login/", 
-                                   function (result) {
+        var resultToken = function (result) {
                                         ProgressDialog.dismiss();
                                         AppController.accessToken = result.data[0].accessToken;
-                                        listener.call();
-                                        });
+                                        continueWith.call();
+                                        };
+        
+        var client = new ApiClient("GET",  UrlBasic+ "/mobilitylabs/user/login/",  resultToken);
         
         client.setcontentType("application/json");
         client.setHeader({ "email": "vlady-mix@hotmail.com", "password": "F@bricio18"});
@@ -152,16 +155,12 @@ class OpenDataService {
             message: "Obteniendo información",
             cancelable: true
         });
-        var map = new HashMap();
-        map.set("idClient", idClient);
-        map.set("passKey", passKey);
-        map.set("idStop", idStop);
-        map.set("cultureInfo", "ES");
-        pd.show();
 
-        var client = new ApiClient("POST", UrlBasic + UrlGetArriveStop, this.listener);
-        client.setcontentType("application/x-www-form-urlencoded");
-        client.setContent_xwwwformurlencoded(map);
+        var client = new ApiClient("POST", UrlBasic + "/transport/busemtmad/stops/" + idStop + "/arrives/", this.listener);
+        
+        client.setcontentType("application/json");
+        client.setHeader({"accessToken":AppController.accessToken})
+        client.setContent('{"cultureInfo":"ES", "Text_EstimationsRequired_YN":"Y" }');
         client.execute(error);
         
     }

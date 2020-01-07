@@ -115,12 +115,14 @@ InfoStopView.prototype = {
       this.$listArriveds.html('');;
 
       if (apiResult != null) {
-         if (Array.isArray(apiResult.arrives)) {
-            for (i in apiResult.arrives) {
-               array.push(Arrived.fromApiResult(apiResult.arrives[i]))
+          var arrive = apiResult.data[0].Arrive;
+          
+         if (Array.isArray(arrive)) {
+            for (i in arrive) {
+               array.push(Arrived.fromApiResult(arrive[i]))
             }
          } else {
-            array.push(Arrived.fromApiResult(apiResult.arrives))
+            array.push(arrive);
          }
       }
 

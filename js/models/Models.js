@@ -122,16 +122,16 @@
 
      static fromApiResult(json) {
          var arrived = new Arrived();
-         arrived.busDistance = json.busDistance;
-         arrived.busId = json.busId;
-         arrived.busPositionType = json.busPositionType;
-         arrived.busTimeLeft = json.busTimeLeft;
+         arrived.busDistance = json.DistanceBus;
+         arrived.busId = json.stop;
+         arrived.busPositionType = json.positionTypeBus;
+         arrived.busTimeLeft = json.estimateArrive;
          arrived.destination = json.destination;
          arrived.isHead = json.isHead;
-         arrived.latitude = json.latitude;
-         arrived.lineId = json.lineId;
-         arrived.longitude = json.longitude;
-         arrived.stopId = json.stopId;
+        
+         arrived.lineId = json.line;
+         arrived.stopId = json.stop;
+         
          arrived.labelArrived = "";
          if (arrived.busTimeLeft == 999999) {
              arrived.labelArrived = "Tiempo de llegada > 20 minutos";
