@@ -11,7 +11,9 @@ body {
     width: 100%;
 }
 
-
+.bold{
+    font-weight: bold;
+}
 .list-item__title{
     font-size: 18px;
     font-weight: bold;
