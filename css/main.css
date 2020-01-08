@@ -11,9 +11,7 @@ body {
     width: 100%;
 }
 
-.list-item{
-    padding: 0px;
-}
+
 .list-item__title{
     font-size: 18px;
     font-weight: bold;
@@ -38,6 +36,9 @@ body {
     overflow-x: hidden;
     background-color: #efeff4;
     background: #efeff4;
+}
+.search-input{
+    font-size: 20px;
 }
 .page__background{
      background-color: #efeff4;

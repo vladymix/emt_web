@@ -4,6 +4,7 @@ var InfoStopView = function (idContainer) {
    this.node = null;
    this.isFavorite = false;
    this.init();
+    this.pd =null;
 };
 
 InfoStopView.prototype = {
@@ -16,6 +17,7 @@ InfoStopView.prototype = {
 
    createChildren: function () {
       this.$backButton = this.$container.find('#back_button');
+      this.$btnReload = this.$container.find('#btn_reload');
       this.$addFavoriteButton = this.$container.find('#add_favorite');
       this.$iconFavorite = this.$addFavoriteButton.find('.zmdi');
       this.$nodeStopLabel = this.$container.find('#tx_nodestop');
@@ -30,19 +32,29 @@ InfoStopView.prototype = {
 
       this.addFavoriteHandler = this.addOrDeleteFavorite.bind(this);
       this.resultExistFavoriteHandler = this.loadLogicBotton.bind(this);
-
       this.removeFavoriteAction = this.onRemoveFavorite.bind(this);
       this.addFavoriteActionAction = this.onAddFavorite.bind(this);
+      this.reloadHandler = this.onReload.bind(this);
 
    },
    
    onGoBack: function () {
-
       var navigator = document.querySelector('#myNavigator');
       //document.querySelector('#myNavigator').resetToPage('page1.html',{animation: 'fade-ios'});
       navigator.removePage(navigator.childNodes.length - 1);
 
    },
+    
+   onReload : function(){
+        this.pd = new ProgressDialog({
+            title: "EMT Horarios",
+            message: "Obteniendo información",
+            cancelable: true
+        });
+        this.pd.show();
+       
+      this.loadArrivesService();
+    },
 
    onAddFavorite: function (sender) {
       this.stop.nickname = sender;
@@ -59,6 +71,7 @@ InfoStopView.prototype = {
    setupOnClick: function () {
       this.$addFavoriteButton.click(this.addFavoriteHandler);
       this.$backButton.click(this.onGoBack);
+      this.$btnReload.click(this.reloadHandler)
    },
 
    setStop: function (stop) {
@@ -145,7 +158,7 @@ InfoStopView.prototype = {
 
    getTemplateArrived: function (arrived) {
       var html = '<li class="list-item">' +
-         '<div class="list-item__left color_accent" style="width: 40px;">' +
+         '<div class="list-item__left color_accent bold" style="width: 40px;">' +
          //'<label class="color_accent">' +
          arrived.lineId +
          //'</label>' +
