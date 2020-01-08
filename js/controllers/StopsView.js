@@ -97,16 +97,16 @@ StopsView.prototype = {
     },
 
     getTemplateStop: function (stop) {
-        var itemhtml = '<li class="list-item list-item--tappable" onclick="AppController.onSearcStop(' + stop.node + ')"  >' +
+        var itemhtml = '<ons-card> <li class="list-item list-item--tappable" onclick="AppController.onSearcStop(' + stop.node + ')"  >' +
             '<div class="list-item__left">' +
-            '<i class="tabbar__icon ion-android-bus color_accent"></i>' +
+            '<i class="tabbar__icon fa fa-bus color_accent"></i>' +
             '</div>' +
-            '<div class="list-item__center">' +
-            '<div class="list-item__title color_accent">' + stop.node + '</div>' +
-            '<div class="list-item__subtitle sub-title">Ubicacion</div>' +
-            '<div class="list-item__subtitle">' + stop.name + '</div>' +
+            '<div>' +
+                '<div class="list-item__title color_accent">' + stop.node + '</div>' +
+                '<div class="list-item__subtitle sub-title">Ubicacion</div>' +
+                '<div class="list-item__subtitle">' + stop.name + '</div>' +
             '</div>' +
-            '</li>';
+            '</li> </ons-card>';
         return itemhtml;
     },
 
